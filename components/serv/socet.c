@@ -72,13 +72,14 @@ void socket_server(void *pvParameters)
 			{
 				rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string...
 				ESP_LOGI(TAG, "%s", rx_buffer);
-		//		while (1)
-		//		{
-					if (xQueueReceive(xQueue1, &(mess), 100)) // Error occurred during receiving
+				while (1)
+				{
+					if (xQueueReceive(xQueue1, &(mess), portMAX_DELAY)) // Error occurred during receiving
 					{
-						ESP_LOGI(TAG, " %s %i ",mess.str,mess.len);
+						ESP_LOGI(TAG, " %s:%i ",mess.str,mess.len);
 						mess.str[mess.len]=0;
-						int err = sendto(sock, rx_buffer, len, 0,
+						mess.str[0]=0;
+						int err = sendto(sock,mess.str,mess.len, 0,
 								(struct sockaddr *) &source_addr,
 								sizeof(source_addr));
 						//	vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -90,7 +91,7 @@ void socket_server(void *pvParameters)
 							break;
 						}
 					}
-			//	}
+				}
 			}
 
 		}

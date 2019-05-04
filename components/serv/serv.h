@@ -72,7 +72,7 @@ EventGroupHandle_t wifi_group;
 
   struct data {
     char str[42];
-    int16_t  len ; //len str
+    int  len ; //len str
     int16_t  key; //hz
 };
   QueueHandle_t xQueue1; /// UDP date stream

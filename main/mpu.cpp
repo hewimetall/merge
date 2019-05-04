@@ -70,16 +70,16 @@ void task_display(void*){
 	 		mpu.dmpGetQuaternion(&q, fifoBuffer);
 			mpu.dmpGetGravity(&gravity, &q);
 			mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-		/*	printf("YAW: %3.1f, ", ypr[0] * 180/M_PI);
+			printf("YAW: %3.1f, ", ypr[0] * 180/M_PI);
 			printf("PITCH: %3.1f, ", ypr[1] * 180/M_PI);
-			printf("ROLL: %3.1f \n", ypr[2] * 180/M_PI);*/
+			printf("ROLL: %3.1f \n", ypr[2] * 180/M_PI);
 			Send_Q(ypr[0] * 180/M_PI,ypr[1] * 180/M_PI,ypr[2] * 180/M_PI);
 	    }
 
 	    //Best result is to match with DMP refresh rate
 	    // Its last value in components/MPU6050/MPU6050_6Axis_MotionApps20.h file line 310
 	    // Now its 0x13, which means DMP is refreshed with 10Hz rate
-		vTaskDelay(100/portTICK_PERIOD_MS);
+		vTaskDelay(40/portTICK_PERIOD_MS);
 	}
 
 	vTaskDelete(NULL);

@@ -19,7 +19,7 @@ void app_main(void)
     nvs_flash_init();
     tcpip_adapter_init();
 // Create a queue capable of containing 10 uint32_t values.
-    xQueue1 = xQueueCreate(2, sizeof(struct data));
+    xQueue1 = xQueueCreate(1, sizeof(struct data));
     wifi_group = xEventGroupCreate();
 
     /* Configure and run Access Point */
@@ -37,7 +37,7 @@ void app_main(void)
     "socket_server", /* pcName */
     4096, /* usStackDepth */
     NULL, /* pvParameters */
-    5, /* uxPriority */
+    3, /* uxPriority */
     NULL, /* pxCreatedTask */
     0); /* xCoreID */
 
@@ -47,7 +47,7 @@ void app_main(void)
     pdFALSE, /* Don't wait for both bits, either bit will do. */
     portMAX_DELAY);/* Wait a maximum of 100ms for either bit to be set. */
 
-    xTaskCreatePinnedToCore(&task_initI2C, "mpu_task", 2048, NULL, 5, NULL, 1);
+    xTaskCreatePinnedToCore(&task_initI2C, "mpu_task", 2048, NULL, 1, NULL, 1);
     vTaskDelay(500 / portTICK_PERIOD_MS);
     xTaskCreatePinnedToCore(&task_display, "disp_task", 6800, NULL, 5, NULL, 1);
     }
